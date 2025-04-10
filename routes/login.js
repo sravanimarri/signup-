@@ -1,8 +1,12 @@
 const express=require('express');
 const db=require('../config/db');
 const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
+const dotenv =require('dotenv');
+dotenv.config();
 
 const router=express.Router();
+const JWT_SECRET=process.env.SECRETKEY;
 
 router.post('/login',(req,res)=>{
     const {email,password}=req.body;
@@ -43,13 +47,19 @@ router.post('/login',(req,res)=>{
                         message:'Invalid email and password'
                     });
         }
+        const token=jwt.sign({
+            id:user.id,
+            email:user.email
+        }, JWT_SECRET,{expiresIn:'10h'});
+
 
         res.status(200)
             .json({
                 message:'login successfull',
                 userId:user.id,
                 username:user.username,
-                email:user.email
+                email:user.email,
+                token:token
             });       
     });
 });
