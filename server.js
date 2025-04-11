@@ -3,6 +3,7 @@ const bodyParser=require('body-parser');
 const registerRoute=require('./routes/register');
 const loginRoute=require('./routes/login');
 const profileRoute=require('./routes/profile');
+const updateProfileRoute=require('./routes/updateProfile');
 const dotenv =require('dotenv');
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.use('/api',registerRoute);
 app.use('/api',loginRoute);
 app.use('/api',profileRoute);
+app.use('/api',updateProfileRoute);
 
 //testing wheather the setup is established or not
 app.get('/',(req,res)=>{
